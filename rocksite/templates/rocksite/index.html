@@ -1,3 +1,18 @@
-<p>
-    We will <b>Rock</b> you!
-</p>
+{% load static %}
+<!DOCTYPE html>
+<head>
+    <title>Rocksite</title>
+    <link rel="stylesheet" href="{% static 'rocksite/css/index.css' %}">
+    <script src="{% static 'rocksite/js/index.js' %}"></script>
+</head>
+<body>
+    <div>
+        <h1> We will <b class="rock-logo">Rock</b> you! </h1>
+        <p>Este HTML será renderizado como a página principal do site.</p>
+        <p>Aqui pode-se criar um formulário para preencher as informações do solo e realizar uma busca a partir delas.</p>
+        <div onclick="test()">
+            <p>Clique nesse paragrafo para chamar a função test.</p>
+        </div>
+    </div>
+</body>
+</html>
