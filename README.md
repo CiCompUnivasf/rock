@@ -21,3 +21,12 @@ python manage.py runserver
 cd rocklib
 python -m rocklib
 ```
+
+## Criar tabelas
+
+Após criar um model no arquivo `rocksite/models.py` você deve criar uma migration e executa-la, dessa forma:
+
+```sh
+python manage.py makemigrations
+python manage.py migrate
+```
