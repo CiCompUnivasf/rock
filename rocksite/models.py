@@ -3,6 +3,12 @@ from uuid import uuid4
 from django.db import models
 
 
+class Localizacao(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    descricao = models.CharField(max_length=500, null=False)
+    uf = models.CharField(max_length=2, null=False)
+    municipio = models.CharField(max_length=50, null=False)
+
 class PontoDeAmostragem(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     numero_pa = models.CharField(max_length=50, null=True)
@@ -10,6 +16,14 @@ class PontoDeAmostragem(models.Model):
     tipo = models.CharField(max_length=100)
     situacao_coleta = models.CharField(max_length=100, null=True)
     material_origem = models.CharField(max_length=100, null=True)
-    # TODO: tornar localizacao_id uma chave estrangueira
-    localizacao_id = models.UUIDField()
+    localizacao =  models.ForeignKey(Localizacao, on_delete=models.CASCADE)
 
+class Horizonte(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    profundidade_superior = models.IntegerField(null=False)
+    profundidade_inferior = models.IntegerField(null=False)
+    h2o = models.FloatField(null=True)
+    kci = models.FloatField(null=True)
+    calcio = models.FloatField(null=True)
+    simbolo = models.CharField(max_length=3, null=False)
+    ponto_de_amostragem = models.ForeignKey(PontoDeAmostragem, on_delete=models.CASCADE, null=True)
