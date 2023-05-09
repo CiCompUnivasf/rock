@@ -42,3 +42,19 @@ def get_localizacao(soup: BeautifulSoup):
         'uf': uf,
         'municipio': municipio
     }
+
+def get_path_localizacao(soup: BeautifulSoup):
+    links_index = 1
+    fieldset = soup.find_all('fieldset')
+    links_fieldset = fieldset[links_index]
+    link_tag = links_fieldset.find('a')
+    return link_tag['href']
+
+def get_path_horizontes(soup: BeautifulSoup):
+    relacionados_index = 0
+    horizontes_link_index = 1
+    fieldset = soup.find_all('fieldset')
+    relacionados_fiedset = fieldset[relacionados_index]
+    links = relacionados_fiedset.find_all('a')
+    link_tag = links[horizontes_link_index]
+    return link_tag['href']
