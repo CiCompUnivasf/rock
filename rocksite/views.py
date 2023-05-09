@@ -2,7 +2,9 @@ from uuid import uuid4
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from rocksite.models import Localizacao
+from rocksite.models import Localizacao, Horizonte
+from django.forms.models import model_to_dict
+
 
 
 def index(request):
@@ -16,3 +18,11 @@ def index(request):
     context = {}
     return render(request, "rocksite/index.html", context)
 
+    
+def search(request):
+    print("criando horizonte")
+    all_horizontes = Horizonte.objects.all()
+    horizontesjson = []
+    for h in iter(all_horizontes):
+        horizontesjson.append(model_to_dict(h))
+    return HttpResponse(str(horizontesjson))
