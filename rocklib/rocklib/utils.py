@@ -25,7 +25,7 @@ def parse_data(data):
         datetime_part = datetime.strptime(datapart, '%d/%m/%Y')
         return datetime_part.date()
     else:
-        raise Exception('Estrutura errada')
+        raise Exception('Não foi posssível realizar parser da data')
 
 def parse_conteudo(linha_html, nome_html):
     """Este método fará parser de conteúdo de cada linha da tabela de identificação
@@ -44,7 +44,7 @@ def parse_conteudo(linha_html, nome_html):
         conteudo = match.group(1)
         return conteudo.strip()
     else:
-        raise Exception('Estrutura errada')
+        raise Exception(f'Não foi possível realizar parser da linha com nome "{nome_html}"')
 
 def parse_conteudo_propriedades_quimicas(linha_html, nome_html):
     """Este método fará parser de conteúdo de cada linha da tabela de propriedades quimícas 
@@ -63,7 +63,7 @@ def parse_conteudo_propriedades_quimicas(linha_html, nome_html):
         conteudo = match.group(1)
         return conteudo.strip()
     else:
-        raise Exception('Estrutura errada')
+        raise Exception(f'Não foi possível realizar parser da linha com nome "{nome_html}"')
 
 def get_lista_de_paths(soup: BeautifulSoup):
     lista_fieldset = soup.find('fieldset')
