@@ -1,12 +1,14 @@
 
 from bs4 import BeautifulSoup
 
-from rocklib.pontos_amostragem_extractor import get_identificacao
+from rocklib.horizontes_extractor import get_identificacao, get_propriedades_quimicas
 
-with open('exemplo.html', 'rt', encoding='latin-1') as exemplofile:
+with open('exemplo-propriedades-quimicas.html', 'rt', encoding='latin-1') as exemplofile:
     exemplotext = exemplofile.read()
 
 
 soup = BeautifulSoup(exemplotext, 'html.parser')
 
-print(get_identificacao(soup))
+prop = get_propriedades_quimicas(soup)
+
+print(prop)
