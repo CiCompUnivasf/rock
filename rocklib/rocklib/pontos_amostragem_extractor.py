@@ -1,39 +1,8 @@
 
-import re
-from datetime import datetime
-
 from bs4 import BeautifulSoup
 
+from rocklib.utils import parse_data, parse_conteudo
 
-DATA_RE = re.compile(r'\d{2}/\d{2}/\d{4}')
-
-def parse_data(data):
-    match = DATA_RE.search(data)
-    if match:
-        datapart = match.group(0)
-        datetime_part = datetime.strptime(datapart, '%d/%m/%Y')
-        return datetime_part.date()
-    else:
-        raise Exception('Estrutura errada')
-
-def parse_conteudo(linha_html, nome_html):
-    """Este método fará parser de conteúdo de cada linha da tabela de identificação
-
-    Args:
-        linha_html (str): O html referente a linha que se quer fazer parser 
-        nome_html (str): O nome utilizado para o conteúdo daquela linha
-
-    Returns:
-        str: conteúdo
-    """
-    match = re.match(
-        f'\s*{nome_html}\s*</b>\s*:\s+((?:\S+\s*)+)\s+',
-        linha_html)
-    if match:
-        conteudo = match.group(1)
-        return conteudo.strip()
-    else:
-        raise Exception('Estrutura errada')
 
 def get_identificacao(soup: BeautifulSoup):
     indentificacao_index = -1
@@ -54,4 +23,22 @@ def get_identificacao(soup: BeautifulSoup):
         'tipo': tipo,
         'situacao_coleta': situacao_coleta,
         'material_origem': material_origem
+    }
+
+def get_localizacao(soup: BeautifulSoup):
+    localizacao_index = -1
+    descricao_index = 1
+    uf_index = 2
+    municipio_index = 3
+    fieldset = soup.find_all('fieldset')
+    localizacao_fieldset = fieldset[localizacao_index]
+    raw_html = str(localizacao_fieldset)
+    lines = raw_html.split('<b>')
+    descricao = parse_conteudo(lines[descricao_index], 'Localização descritiva')
+    uf = parse_conteudo(lines[uf_index], 'UF')
+    municipio = parse_conteudo(lines[municipio_index], 'Município')
+    return {
+        'descricao': descricao,
+        'uf': uf,
+        'municipio': municipio
     }
