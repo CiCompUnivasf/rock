@@ -1,0 +1,75 @@
+
+import re
+
+from bs4 import BeautifulSoup
+
+from rocklib.utils import (
+    parse_conteudo,
+    parse_conteudo_propriedades_quimicas,
+    get_soup)
+
+
+CALCIO_RE = re.compile(r'\d+\.\d+')
+
+def get_identificacao(soup: BeautifulSoup):
+    identificacao_index = -1
+    superior_index = 1
+    inferior_index = 2
+    fieldset = soup.find_all('fieldset')
+    identificacao_fieldset = fieldset[identificacao_index]
+    raw_html = str(identificacao_fieldset)
+    lines = raw_html.split('<b>')
+    superior = parse_conteudo(lines[superior_index], 'Profundidade Superior')
+    inferior = parse_conteudo(lines[inferior_index], 'Profundidade Inferior')
+    return {
+        'profundidade_superior': int(superior),
+        'profundidade_inferior': int(inferior)
+    }
+
+def get_propriedades_quimicas(soup: BeautifulSoup):
+    h2o = None
+    kcl = None
+    calcio_number = None
+    propriedades_index = -1
+    h2o_index = 4
+    kcl_index = 6
+    calcio_index = 12
+    fieldset = soup.find_all('fieldset')
+    identificacao_fieldset = fieldset[propriedades_index]
+    raw_html = str(identificacao_fieldset)
+    lines = raw_html.split('<br/>')
+    if len(lines) > h2o_index:
+        h2o = float(parse_conteudo_propriedades_quimicas(lines[h2o_index], 'H<sub>2</sub>O'))
+        if len(lines) > kcl_index:
+            kcl = float(parse_conteudo_propriedades_quimicas(lines[kcl_index], 'KCl'))
+            if len(lines) > calcio_index:
+                calcio = parse_conteudo_propriedades_quimicas(lines[calcio_index], 'Cálcio')
+                calcio_match = re.search(CALCIO_RE, calcio)
+                if calcio_match:
+                    calcio_number = float(calcio_match.group(0))
+    return {
+        'h2o': h2o,
+        'kcl': kcl,
+        'calcio': calcio_number
+    }
+
+def get_path_propriedades_quimicas(soup: BeautifulSoup):
+    links_index = 1
+    propriedades_index = 2
+    fieldset = soup.find_all('fieldset')
+    links_fieldset = fieldset[links_index]
+    links = links_fieldset.find_all('a')
+    link_tag = links[propriedades_index]
+    return link_tag['href']
+
+def get_all_dados_horizonte(horizonte_simbolo, path):
+    soup = get_soup(path)
+    identificacao = get_identificacao(soup)
+    propriedades_path = get_path_propriedades_quimicas(soup)
+    propriedades_soup = get_soup(propriedades_path)
+    propriedades = get_propriedades_quimicas(propriedades_soup)
+    return {
+        'simbolo': horizonte_simbolo,
+        **identificacao,
+        **propriedades
+    }
