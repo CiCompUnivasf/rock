@@ -1,14 +1,14 @@
 from uuid import uuid4
 
 from django.shortcuts import render
-from django.http import HttpResponse
-from rocksite.models import Localizacao, Horizonte
+from django.http import HttpResponse, JsonResponse
+from rocksite.models import Localizacao, Horizonte, PontoDeAmostragem
 from django.forms.models import model_to_dict
 
 
 
 def index(request):
-    print('Criando um ponto de amostragem')
+    print('Criando uma localização')
     local = Localizacao(
         descricao="Terreno próximo a casa de seu bida",
         uf="PE",
@@ -18,11 +18,30 @@ def index(request):
     context = {}
     return render(request, "rocksite/index.html", context)
 
+def index(request):
+    print('criando um ponto de amostragem')
+    local = Localizacao(
+        descricao="Terreno próximo a casa de seu bida",
+        uf="PE",
+        municipio="Salgueiro"
+    )
+    local.save()
+    ponto_de_amostragem = PontoDeAmostragem(
+        tipo="perfil completo",
+        localizacao = local,
+        situacao_coleta="trincheira"
+    )
+    ponto_de_amostragem.save()
+    return HttpResponse("foi salvo o ponto de amostragem")
+
     
 def search(request):
     print("criando horizonte")
-    all_horizontes = Horizonte.objects.all()
+    all_horizontes = Horizonte.objects.all().filter(h2o__gte=10.0)
     horizontesjson = []
     for h in iter(all_horizontes):
         horizontesjson.append(model_to_dict(h))
-    return HttpResponse(str(horizontesjson))
+    return JsonResponse(horizontesjson, safe = False)
+
+
+    
