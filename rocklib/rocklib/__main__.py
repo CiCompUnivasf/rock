@@ -23,7 +23,7 @@ def get_all_dados_ponto_amostragem(numero_ponto, path):
         **localizacao
     }
 
-def main():
+def executa_extracao():
     lista_de_pontos_path = '1658783180lpa4171b816865caa59036ee4aa20fffc00b3ee1.html'
     soup = get_soup(lista_de_pontos_path)
     lista_de_paths = list(get_lista_de_paths(soup))
@@ -36,7 +36,7 @@ def main():
             dados.append(ponto_amostragem)
         except Exception as e:
             print(f'Erro em ponto {numero}, gerado: {e}')
-    print(json.dumps(dados, default=str))
+    return dados
 
 if __name__ == '__main__':
-    main()
+    executa_extracao()
