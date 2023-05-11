@@ -1,9 +1,9 @@
 from django.core.management.base import BaseCommand
 import rocklib
-from rocksite.models import Localizacao,Horizonte, PontoDeAmostragem
+from rocksite.models import Localizacao, Horizonte, PontoDeAmostragem
 
 class Command(BaseCommand):
-    help = 'Descrição do meu comando'
+    help = 'Comando para extração e persistência dos dados da Embrapa'
 
     def handle(self, *args, **options):
         dados = rocklib.executa_extracao()
@@ -14,5 +14,6 @@ class Command(BaseCommand):
             ponto_model.save()
             for horizonte in ponto['horizontes']:
                 horizonte_model = Horizonte( profundidade_superior = horizonte['profundidade_superior'], profundidade_inferior = horizonte['profundidade_inferior'], h2o = horizonte['h2o'],kci = horizonte['kcl'], calcio = horizonte['calcio'], simbolo = horizonte['simbolo'],ponto_de_amostragem = ponto_model)
+                horizonte_model.save()
        
         self.stdout.write('salvo com sucesso!!')
