@@ -1,3 +1,4 @@
+
 function validateLogin(event) {
     event.preventDefault(); // Impede o envio do formulário
 
@@ -11,7 +12,7 @@ function validateLogin(event) {
         var currentURL = new URL(window.location.href);
 
         // Constrói o caminho para a outra página
-        var outraPaginaPath = currentURL.origin + '/rock_front/amostragem/tabela.html';
+        var outraPaginaPath = '/static/rocksite/amostragem/tabela.html';
 
         // Redireciona para a outra página
         window.location.href = outraPaginaPath;

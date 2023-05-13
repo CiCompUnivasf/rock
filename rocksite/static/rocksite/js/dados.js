@@ -20,15 +20,18 @@ function submitForm(event) {
     searchParams.append('porcentagem[]', porcentagens[i]);
   }
 
-  const url = 'processar_busca.php?' + searchParams.toString();
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      // Manipular os dados retornados e preencher a tabela
-      // de acordo com os resultados da busca
-    })
-    .catch(error => {
-      console.error('Ocorreu um erro na busca:', error);
-    });
+  console.log(`Será buscado as seguintes propriedades: ${propriedades}`)
+  console.log(`Será buscado os seguintes valores: ${porcentagens}`)
+  // TODO: Corrigir esse código para realizar requisição POST com propiedades e porcentagens sendo enviadas via JSON
+  //const url = 'processar_busca.php?' + searchParams.toString();
+  //fetch(url)
+  //  .then(response => response.json())
+  //  .then(data => {
+  //    // Manipular os dados retornados e preencher a tabela
+  //    // de acordo com os resultados da busca
+  //  })
+  //  .catch(error => {
+  //    console.error('Ocorreu um erro na busca:', error);
+  //  });
 }
 

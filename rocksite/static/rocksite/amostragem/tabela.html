@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="tabela.css">
+  <link rel="stylesheet" href="/static/rocksite/amostragem/tabela.css">
   <title>Tabela de Busca</title>
 </head>
 
@@ -12,8 +12,8 @@
   <!--personaliza o  envio e executar ações antes de enviar os dados -->
   <div class="search-form">
     <form onsubmit="return submitForm(event)">
-      <input type="text" id="propriedade" placeholder="Propriedade">
-      <input type="number" id="porcentagem" placeholder="Porcentagem">
+      <input type="text" id="propriedade0" placeholder="Propriedade">
+      <input type="number" id="porcentagem0" placeholder="Porcentagem">
       <button class="add-button" type="button" onclick="addFields()">+</button>
       <input type="submit" value="Buscar">
     </form>
@@ -32,6 +32,6 @@
       <!-- Os resultados serão preenchidos dinamicamente com os dados do banco de dados -->
     </tbody>
   </table>
-  <script src="/rock_front/js/botao.js"></script>
+  <script src="/static/rocksite/js/botao.js"></script>
 
-  <script src="/rock_front//js/dados.js"></script>
+  <script src="/static/rocksite/js/dados.js"></script>
