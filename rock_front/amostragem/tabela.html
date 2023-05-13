@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="tabela.css">
+  <title>Tabela de Busca</title>
+</head>
+
+<body>
+  <h1>Tabela de Busca</h1>
+  <!--personaliza o  envio e executar ações antes de enviar os dados -->
+  <div class="search-form">
+    <form onsubmit="return submitForm(event)">
+      <input type="text" id="propriedade" placeholder="Propriedade">
+      <input type="number" id="porcentagem" placeholder="Porcentagem">
+      <button class="add-button" type="button" onclick="addFields()">+</button>
+      <input type="submit" value="Buscar">
+    </form>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Localização</th> <!--define uma célula cabeçalho do grupo de células-->
+        <th>Ponto de Amostragem</th>
+        <th>Horizonte</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Aqui serão exibidos os resultados da busca -->
+      <!-- Os resultados serão preenchidos dinamicamente com os dados do banco de dados -->
+    </tbody>
+  </table>
+  <script src="/rock_front/js/botao.js"></script>
+
+  <script src="/rock_front//js/dados.js"></script>

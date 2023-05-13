@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Rock</title>
+</head>
+
+<body>
+    <section class="area-login">
+        <div class="login">
+            <div>
+                <img src="/rock_front/img/rock-logo-login-titulo.png" alt="logo-rock-login">
+            </div>
+
+            <!-- metodo post para enviar os dados para o servidor -->
+            <form id="login-form" onsubmit="validateLogin(event)">
+                <input type="text" name="user" id="usuario" placeholder="Usuário" autofocus>
+
+                <input type="password" name="senha" id="senha_usuario" placeholder="Senha">
+
+                <input type="submit" value="Entrar">
+            </form>
+        </div>
+
+        <script src="/rock_front/js/validacao_login.js"></script>
+    </section>
+</body>
+
+</html>
