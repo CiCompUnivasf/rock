@@ -1,2 +1,2 @@
 
-from rocklib.__main__ import executa_extracao
+from rocklib.extractor import executa_extracao
