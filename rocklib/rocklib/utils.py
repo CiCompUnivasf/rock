@@ -18,7 +18,8 @@ def get_soup(path):
         text = pathfile.read()
     return BeautifulSoup(text, 'html.parser')
 
-def parse_data(data):
+def parse_data(linhas_html):
+    data = parse_conteudo(linhas_html, 'Data da Coleta')
     match = DATA_RE.search(data)
     if match:
         datapart = match.group(0)
@@ -27,16 +28,23 @@ def parse_data(data):
     else:
         raise Exception('Não foi posssível realizar parser da data')
 
-def parse_conteudo(linha_html, nome_html):
+def parse_conteudo(linhas_html, nome_html):
     """Este método fará parser de conteúdo de cada linha da tabela de identificação
 
     Args:
-        linha_html (str): O html referente a linha que se quer fazer parser 
+        linhas_html (list[str]): Lista de html's referente as possiveis linhas que se quer fazer parser 
         nome_html (str): O nome utilizado para o conteúdo daquela linha
 
     Returns:
         str: conteúdo
     """
+    found = False
+    for linha_html in linhas_html:
+        if linha_html.strip().startswith(nome_html):
+            found = True
+            break
+    if not found:
+        raise Exception(f"Não foi possível obter o dado {nome_html}")
     match = re.match(
         f'\s*{nome_html}\s*</b>\s*:\s+((?:\S+\s*)+)\s+',
         linha_html)

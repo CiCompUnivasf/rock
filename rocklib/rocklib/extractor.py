@@ -13,7 +13,13 @@ def get_all_dados_ponto_amostragem(numero_ponto, path):
     lista_horizontes_path = get_path_horizontes(soup)
     lista_horizontes_soup = get_soup(lista_horizontes_path)
     lista_horizontes = get_lista_de_paths(lista_horizontes_soup)
-    horizontes = list(map(lambda args: get_all_dados_horizonte(*args), lista_horizontes))
+    horizontes = []
+    for simbolo, horizonte_path in lista_horizontes:
+        try:
+            horizonte = get_all_dados_horizonte(simbolo, horizonte_path)
+            horizontes.append(horizonte)
+        except Exception as e:
+            print(f'Exceção ao obter o horizonte {simbolo} para o ponto {numero_ponto}. Exceção: {e}')
     return {
         'numero_pa': numero_ponto,
         'horizontes': horizontes,

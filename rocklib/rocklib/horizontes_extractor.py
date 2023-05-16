@@ -13,14 +13,12 @@ CALCIO_RE = re.compile(r'\d+\.\d+')
 
 def get_identificacao(soup: BeautifulSoup):
     identificacao_index = -1
-    superior_index = 1
-    inferior_index = 2
     fieldset = soup.find_all('fieldset')
     identificacao_fieldset = fieldset[identificacao_index]
     raw_html = str(identificacao_fieldset)
     lines = raw_html.split('<b>')
-    superior = parse_conteudo(lines[superior_index], 'Profundidade Superior')
-    inferior = parse_conteudo(lines[inferior_index], 'Profundidade Inferior')
+    superior = parse_conteudo(lines, 'Profundidade Superior')
+    inferior = parse_conteudo(lines, 'Profundidade Inferior')
     return {
         'profundidade_superior': int(superior),
         'profundidade_inferior': int(inferior)
@@ -38,15 +36,18 @@ def get_propriedades_quimicas(soup: BeautifulSoup):
     identificacao_fieldset = fieldset[propriedades_index]
     raw_html = str(identificacao_fieldset)
     lines = raw_html.split('<br/>')
-    if len(lines) > h2o_index:
-        h2o = float(parse_conteudo_propriedades_quimicas(lines[h2o_index], 'H<sub>2</sub>O'))
-        if len(lines) > kcl_index:
-            kcl = float(parse_conteudo_propriedades_quimicas(lines[kcl_index], 'KCl'))
-            if len(lines) > calcio_index:
-                calcio = parse_conteudo_propriedades_quimicas(lines[calcio_index], 'Cálcio')
-                calcio_match = re.search(CALCIO_RE, calcio)
-                if calcio_match:
-                    calcio_number = float(calcio_match.group(0))
+    try:
+        if len(lines) > h2o_index:
+            h2o = float(parse_conteudo_propriedades_quimicas(lines[h2o_index], 'H<sub>2</sub>O'))
+            if len(lines) > kcl_index:
+                kcl = float(parse_conteudo_propriedades_quimicas(lines[kcl_index], 'KCl'))
+                if len(lines) > calcio_index:
+                    calcio = parse_conteudo_propriedades_quimicas(lines[calcio_index], 'Cálcio')
+                    calcio_match = re.search(CALCIO_RE, calcio)
+                    if calcio_match:
+                        calcio_number = float(calcio_match.group(0))
+    except Exception as e:
+        print(f'Erro ao obter propriedades químicas: {e}')
     return {
         'h2o': h2o,
         'kcl': kcl,
