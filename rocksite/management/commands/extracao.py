@@ -13,7 +13,7 @@ class Command(BaseCommand):
             ponto_model = PontoDeAmostragem( numero_pa = ponto['numero_pa'], data_coleta = ponto['data_coleta'], tipo = ponto['tipo'],  situacao_coleta = ponto['situacao_coleta'],  material_origem = ponto['material_origem'], localizacao = local)
             ponto_model.save()
             for horizonte in ponto['horizontes']:
-                horizonte_model = Horizonte( profundidade_superior = horizonte['profundidade_superior'], profundidade_inferior = horizonte['profundidade_inferior'], h2o = horizonte['h2o'],kci = horizonte['kcl'], calcio = horizonte['calcio'], simbolo = horizonte['simbolo'],ponto_de_amostragem = ponto_model)
+                horizonte_model = Horizonte( profundidade_superior = horizonte['profundidade_superior'], profundidade_inferior = horizonte['profundidade_inferior'], h2o = horizonte['h2o'],kcl = horizonte['kcl'], calcio = horizonte['calcio'], simbolo = horizonte['simbolo'],ponto_de_amostragem = ponto_model)
                 horizonte_model.save()
        
         self.stdout.write('salvo com sucesso!!')

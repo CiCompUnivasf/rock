@@ -20,10 +20,10 @@ class PontoDeAmostragem(models.Model):
 
 class Horizonte(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    profundidade_superior = models.IntegerField(null=False)
-    profundidade_inferior = models.IntegerField(null=False)
+    profundidade_superior = models.IntegerField(null=True)
+    profundidade_inferior = models.IntegerField(null=True)
     h2o = models.FloatField(null=True)
-    kci = models.FloatField(null=True)
+    kcl = models.FloatField(null=True)
     calcio = models.FloatField(null=True)
     simbolo = models.CharField(max_length=3, null=False)
     ponto_de_amostragem = models.ForeignKey(PontoDeAmostragem, on_delete=models.CASCADE, null=True)
