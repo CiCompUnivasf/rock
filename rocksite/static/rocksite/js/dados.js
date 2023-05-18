@@ -7,7 +7,7 @@ function submitForm(event) {
 
   for (let i = 0; i < fieldsCounter; i++) {
     const propriedade = document.getElementById(`propriedade${i}`).value;
-    const porcentagem = document.getElementById(`porcentagem${i}`).value;
+    const porcentagem = parseFloat(document.getElementById(`porcentagem${i}`).value.replaceAll(",","."));
     if (propriedade && porcentagem) {
       propriedades.push(propriedade);
       porcentagens.push(porcentagem);
