@@ -3,6 +3,7 @@ import re
 
 from bs4 import BeautifulSoup
 
+from rocklib.logger import logger
 from rocklib.utils import (
     parse_conteudo,
     parse_conteudo_propriedades_quimicas,
@@ -23,7 +24,7 @@ def get_identificacao(soup: BeautifulSoup):
         superior = int(parse_conteudo(lines, 'Profundidade Superior'))
         inferior = int(parse_conteudo(lines, 'Profundidade Inferior'))
     except Exception as e:
-        print(f"Erro ao obter profundidade do horizonte. Erro: {str(e)}.")
+        logger.debug(f"Erro ao obter profundidade do horizonte. Erro: {str(e)}.")
     return {
         'profundidade_superior': superior,
         'profundidade_inferior': inferior
@@ -52,7 +53,7 @@ def get_propriedades_quimicas(soup: BeautifulSoup):
                     if calcio_match:
                         calcio_number = float(calcio_match.group(0))
     except Exception as e:
-        print(f'Erro ao obter propriedades químicas: {e}')
+        logger.debug(f'Erro ao obter propriedades químicas: {e}')
     return {
         'h2o': h2o,
         'kcl': kcl,
