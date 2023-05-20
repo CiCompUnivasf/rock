@@ -12,16 +12,21 @@ from rocklib.utils import (
 CALCIO_RE = re.compile(r'\d+\.\d+')
 
 def get_identificacao(soup: BeautifulSoup):
+    superior = None
+    inferior = None
     identificacao_index = -1
     fieldset = soup.find_all('fieldset')
     identificacao_fieldset = fieldset[identificacao_index]
     raw_html = str(identificacao_fieldset)
     lines = raw_html.split('<b>')
-    superior = parse_conteudo(lines, 'Profundidade Superior')
-    inferior = parse_conteudo(lines, 'Profundidade Inferior')
+    try:
+        superior = int(parse_conteudo(lines, 'Profundidade Superior'))
+        inferior = int(parse_conteudo(lines, 'Profundidade Inferior'))
+    except Exception as e:
+        print(f"Erro ao obter profundidade do horizonte. Erro: {str(e)}.")
     return {
-        'profundidade_superior': int(superior),
-        'profundidade_inferior': int(inferior)
+        'profundidade_superior': superior,
+        'profundidade_inferior': inferior
     }
 
 def get_propriedades_quimicas(soup: BeautifulSoup):
