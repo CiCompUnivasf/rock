@@ -42,7 +42,9 @@ def search(request):
     horizontesjson = []
     for h in iter(all_horizontes):
         horizontesjson.append(model_to_dict(h))
-    return JsonResponse(horizontesjson, safe = False)
+    all_localizacao = Localizacao.objects.all()
+    localizacaojson = [model_to_dict(localizacao) for localizacao in all_localizacao]
+    return JsonResponse(localizacaojson, safe = False)
 
 
     
