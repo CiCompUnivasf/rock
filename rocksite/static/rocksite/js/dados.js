@@ -2,27 +2,19 @@
 function submitForm(event) {
   event.preventDefault();
   const form = document.querySelector('form');
-  const propriedades = [];
-  const porcentagens = [];
+  const payload = {};
+
 
   for (let i = 0; i < fieldsCounter; i++) {
     const propriedade = document.getElementById(`propriedade${i}`).value;
     const porcentagem = parseFloat(document.getElementById(`porcentagem${i}`).value.replaceAll(",", "."));
     if (propriedade && porcentagem) {
-      propriedades.push(propriedade);
-      porcentagens.push(porcentagem);
+     payload[propriedade] = porcentagem;
     }
   }
 
-  const searchParams = new URLSearchParams();
-  for (let i = 0; i < propriedades.length; i++) {
-    searchParams.append('propriedade[]', propriedades[i]);
-    searchParams.append('porcentagem[]', porcentagens[i]);
-  }
-  const payload = { propriedades: propriedades, porcentagens: porcentagens }
+ 
   console.log(payload)
-  console.log(`Será buscado as seguintes propriedades: ${propriedades}`)
-  console.log(`Será buscado os seguintes valores: ${porcentagens}`)
   // TODO: Corrigir esse código para realizar requisição POST com propiedades e porcentagens sendo enviadas via JSON
   const url = '/search';
   const option = { method: 'POST', body: JSON.stringify(payload) }
