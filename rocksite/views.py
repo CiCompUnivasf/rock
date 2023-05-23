@@ -1,5 +1,6 @@
 from uuid import uuid4
 
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rocksite.models import Localizacao, Horizonte, PontoDeAmostragem
@@ -34,10 +35,10 @@ def index(request):
     ponto_de_amostragem.save()
     return HttpResponse("foi salvo o ponto de amostragem")
 
-    
+@csrf_exempt  
 def search(request):
     print("criando horizonte")
-    all_horizontes = Horizonte.objects.all().filter(h2o__gte=10.0)
+    all_horizontes = Horizonte.objects.all().filter(h2o__gte=0)
     horizontesjson = []
     for h in iter(all_horizontes):
         horizontesjson.append(model_to_dict(h))
