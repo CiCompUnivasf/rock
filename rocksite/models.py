@@ -16,6 +16,7 @@ class PontoDeAmostragem(models.Model):
     tipo = models.CharField(max_length=100)
     situacao_coleta = models.CharField(max_length=100, null=True)
     material_origem = models.CharField(max_length=100, null=True)
+    uso_atual = models.CharField(max_length=100, null=True)
     localizacao =  models.ForeignKey(Localizacao, on_delete=models.CASCADE)
 
 class Horizonte(models.Model):
