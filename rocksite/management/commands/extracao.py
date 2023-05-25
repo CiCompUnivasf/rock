@@ -22,6 +22,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.configure_verbosity(options['verbosity'])
         dados = rocklib.executa_extracao()
+        self.stdout.write(self.style.SUCCESS(f"A extração foi finalizada. Inserindo {len(dados)} pontos de amostragem..."))
         for ponto in dados:
             local = Localizacao(
                 uf=ponto['uf'],
@@ -40,5 +41,4 @@ class Command(BaseCommand):
             for horizonte in ponto['horizontes']:
                 horizonte_model = Horizonte( profundidade_superior = horizonte['profundidade_superior'], profundidade_inferior = horizonte['profundidade_inferior'], h2o = horizonte['h2o'],kcl = horizonte['kcl'], calcio = horizonte['calcio'], simbolo = horizonte['simbolo'],ponto_de_amostragem = ponto_model)
                 horizonte_model.save()
-       
-        self.stdout.write(self.style.SUCCESS('salvo com sucesso!!'))
+        self.stdout.write(self.style.SUCCESS('Salvo com sucesso!'))

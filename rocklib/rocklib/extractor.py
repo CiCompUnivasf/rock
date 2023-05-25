@@ -21,12 +21,14 @@ def get_all_dados_ponto_amostragem(numero_ponto, path):
             horizontes.append(horizonte)
         except Exception as e:
             logger.debug(f'Exceção ao obter o horizonte {simbolo} para o ponto {numero_ponto}. Exceção: {e}')
-    return {
-        'numero_pa': numero_ponto,
-        'horizontes': horizontes,
-        **identificacao,
-        **localizacao
-    }
+    if len(horizontes):
+        return {
+            'numero_pa': numero_ponto,
+            'horizontes': horizontes,
+            **identificacao,
+            **localizacao
+        }
+    else: raise Exception("Não há horizontes cadastrados.")
 
 def executa_extracao():
     lista_de_pontos_path = '1658783180lpa4171b816865caa59036ee4aa20fffc00b3ee1.html'
