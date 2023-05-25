@@ -42,8 +42,10 @@ def search(request):
     horizontesjson = []
     for h in iter(all_horizontes):
         horizontesjson.append(model_to_dict(h))
-    all_localizacao = Localizacao.objects.all()
-    localizacaojson = [model_to_dict(localizacao) for localizacao in all_localizacao]
+    all_pontos = PontoDeAmostragem.objects.all()
+    localizacaojson = [
+        {**model_to_dict(ponto.localizacao),'uso_atual': ponto.uso_atual}
+        for ponto in all_pontos]
     return JsonResponse(localizacaojson, safe = False)
 
 
