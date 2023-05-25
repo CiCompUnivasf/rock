@@ -26,26 +26,33 @@ function submitForm(event) {
       //    // de acordo com os resultados da busca
       // Obtém a referência ao corpo da tabela
       var tbody = document.getElementById("tables_localizacao");
+      tbody.innerHTML = " ";
 
       // Percorre o JSON e cria as linhas da tabela
       data.forEach(function (obj) {
         // Cria uma nova linha na tabela
         let row = document.createElement("tr");
 
-        let descricaoCell = document.createElement("td");
-        descricaoCell.textContent = obj.descricao;
-
         // Cria as células para o município e a UF
         let municipioCell = document.createElement("td");
         municipioCell.textContent = obj.municipio;
 
+        
         let ufCell = document.createElement("td");
         ufCell.textContent = obj.uf;
 
+        let usoAtualCell = document.createElement("td");
+        usoAtualCell.textContent = obj.uso_atual;
+
+        let descricaoCell = document.createElement("td");
+        descricaoCell.textContent = obj.descricao;
+
+
         // Adiciona as células à linha
-        row.appendChild(descricaoCell);
         row.appendChild(municipioCell);
         row.appendChild(ufCell);
+        row.appendChild(usoAtualCell);
+        row.appendChild(descricaoCell);
 
         // Adiciona a linha ao corpo da tabela
         tbody.appendChild(row);
