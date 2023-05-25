@@ -32,10 +32,8 @@ def executa_extracao():
     lista_de_pontos_path = '1658783180lpa4171b816865caa59036ee4aa20fffc00b3ee1.html'
     soup = get_soup(lista_de_pontos_path)
     lista_de_paths = list(get_lista_de_paths(soup))
-    slice = lista_de_paths[:10]
-    logger.debug(len(slice))
     dados = []
-    for numero, path in slice:
+    for numero, path in lista_de_paths:
         try:
             ponto_amostragem = get_all_dados_ponto_amostragem(numero, path)
             dados.append(ponto_amostragem)

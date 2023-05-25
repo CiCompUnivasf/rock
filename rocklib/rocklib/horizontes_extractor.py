@@ -12,6 +12,12 @@ from rocklib.utils import (
 
 CALCIO_RE = re.compile(r'\d+\.\d+')
 
+def map_optional(func, value):
+    """If value is None return it, otherwise call func with value"""
+    if value is None:
+        return None
+    else: return func(value)
+
 def get_identificacao(soup: BeautifulSoup):
     superior = None
     inferior = None
@@ -35,23 +41,18 @@ def get_propriedades_quimicas(soup: BeautifulSoup):
     kcl = None
     calcio_number = None
     propriedades_index = -1
-    h2o_index = 4
-    kcl_index = 6
-    calcio_index = 12
     fieldset = soup.find_all('fieldset')
     identificacao_fieldset = fieldset[propriedades_index]
     raw_html = str(identificacao_fieldset)
     lines = raw_html.split('<br/>')
     try:
-        if len(lines) > h2o_index:
-            h2o = float(parse_conteudo_propriedades_quimicas(lines[h2o_index], 'H<sub>2</sub>O'))
-            if len(lines) > kcl_index:
-                kcl = float(parse_conteudo_propriedades_quimicas(lines[kcl_index], 'KCl'))
-                if len(lines) > calcio_index:
-                    calcio = parse_conteudo_propriedades_quimicas(lines[calcio_index], 'Cálcio')
-                    calcio_match = re.search(CALCIO_RE, calcio)
-                    if calcio_match:
-                        calcio_number = float(calcio_match.group(0))
+        h2o = map_optional(float, parse_conteudo_propriedades_quimicas(lines, 'H<sub>2</sub>O'))
+        kcl = map_optional(float, parse_conteudo_propriedades_quimicas(lines, 'KCl'))
+        calcio = parse_conteudo_propriedades_quimicas(lines, 'Cálcio')
+        if calcio:
+            calcio_match = re.search(CALCIO_RE, calcio)
+            if calcio_match:
+                calcio_number = float(calcio_match.group(0))
     except Exception as e:
         logger.debug(f'Erro ao obter propriedades químicas: {e}')
     return {

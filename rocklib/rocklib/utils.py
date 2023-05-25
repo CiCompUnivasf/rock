@@ -4,6 +4,8 @@ from datetime import datetime
 
 from bs4 import BeautifulSoup
 
+from rocklib.logger import logger
+
 
 DATA_RE = re.compile(r'\d{2}/\d{2}/\d{4}')
 PATH_BASE = 'C:\\Users\\jpaul\\Desktop\\var\\www\\solos\\html\\16587831804171ba22bccc0b7f83270e419def938bf4de9\\'
@@ -54,24 +56,25 @@ def parse_conteudo(linhas_html, nome_html):
     else:
         raise Exception(f'Não foi possível realizar parser da linha com nome "{nome_html}"')
 
-def parse_conteudo_propriedades_quimicas(linha_html, nome_html):
+def parse_conteudo_propriedades_quimicas(linhas_html, nome_html):
     """Este método fará parser de conteúdo de cada linha da tabela de propriedades quimícas 
 
     Args:
-        linha_html (str): O html referente a linha que se quer fazer parser 
+        linhas_html (list[str]): Lista de html's referente as possiveis linhas que se quer fazer parser 
         nome_html (str): O nome utilizado para o conteúdo daquela linha
 
     Returns:
         str: conteúdo
     """
-    match = re.match(
-        f'\s*<b>\s*{nome_html}\s*</b>\s*:\s+((?:\S+\s*)+)\s+',
-        linha_html)
-    if match:
-        conteudo = match.group(1)
-        return conteudo.strip()
-    else:
-        raise Exception(f'Não foi possível realizar parser da linha com nome "{nome_html}"')
+    for linha_html in linhas_html:
+        match = re.match(
+            f'\s*<b>\s*{nome_html}\s*</b>\s*:\s+((?:\S+\s*)+)\s+',
+            linha_html)
+        if match:
+            conteudo = match.group(1)
+            return conteudo.strip()
+    logger.debug(f"Não foi possível obter o dado {nome_html}")
+    return None
 
 def get_lista_de_paths(soup: BeautifulSoup):
     lista_fieldset = soup.find('fieldset')
