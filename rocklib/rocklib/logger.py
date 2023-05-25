@@ -1,5 +1,4 @@
 
-from os import environ
 import logging
 
 logging.basicConfig()

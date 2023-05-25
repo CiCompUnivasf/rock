@@ -15,6 +15,12 @@ def resolve_path(path):
         return path
     else: return PATH_BASE + path
 
+def map_optional(func, value):
+    """If value is None return it, otherwise call func with value"""
+    if value is None:
+        return None
+    else: return func(value)
+
 def get_soup(path):
     with open(resolve_path(path), 'rt', encoding='latin-1') as pathfile:
         text = pathfile.read()
@@ -22,13 +28,14 @@ def get_soup(path):
 
 def parse_data(linhas_html):
     data = parse_conteudo(linhas_html, 'Data da Coleta')
-    match = DATA_RE.search(data)
-    if match:
-        datapart = match.group(0)
-        datetime_part = datetime.strptime(datapart, '%d/%m/%Y')
-        return datetime_part.date()
-    else:
-        raise Exception('Não foi posssível realizar parser da data')
+    if data:
+        match = DATA_RE.search(data)
+        if match:
+            datapart = match.group(0)
+            datetime_part = datetime.strptime(datapart, '%d/%m/%Y')
+            return datetime_part.date()
+    logger.debug('Não foi posssível realizar parser da data')
+    return None
 
 def parse_conteudo(linhas_html, nome_html):
     """Este método fará parser de conteúdo de cada linha da tabela de identificação
@@ -46,7 +53,8 @@ def parse_conteudo(linhas_html, nome_html):
             found = True
             break
     if not found:
-        raise Exception(f"Não foi possível obter o dado {nome_html}")
+        logger.debug(f"Não foi possível obter o dado {nome_html}")
+        return None
     match = re.match(
         f'\s*{nome_html}\s*</b>\s*:\s+((?:\S+\s*)+)\s+',
         linha_html)
@@ -54,7 +62,8 @@ def parse_conteudo(linhas_html, nome_html):
         conteudo = match.group(1)
         return conteudo.strip()
     else:
-        raise Exception(f'Não foi possível realizar parser da linha com nome "{nome_html}"')
+        logger.debug(f'Não foi possível realizar parser da linha com nome "{nome_html}"')
+        return None
 
 def parse_conteudo_propriedades_quimicas(linhas_html, nome_html):
     """Este método fará parser de conteúdo de cada linha da tabela de propriedades quimícas 

@@ -7,16 +7,11 @@ from rocklib.logger import logger
 from rocklib.utils import (
     parse_conteudo,
     parse_conteudo_propriedades_quimicas,
-    get_soup)
+    get_soup,
+    map_optional)
 
 
-CALCIO_RE = re.compile(r'\d+\.\d+')
-
-def map_optional(func, value):
-    """If value is None return it, otherwise call func with value"""
-    if value is None:
-        return None
-    else: return func(value)
+CALCIO_RE = re.compile(r'\d+\.\d+') # TODO: Suportar números inteiros
 
 def get_identificacao(soup: BeautifulSoup):
     superior = None
@@ -27,8 +22,8 @@ def get_identificacao(soup: BeautifulSoup):
     raw_html = str(identificacao_fieldset)
     lines = raw_html.split('<b>')
     try:
-        superior = int(parse_conteudo(lines, 'Profundidade Superior'))
-        inferior = int(parse_conteudo(lines, 'Profundidade Inferior'))
+        superior = map_optional(int, parse_conteudo(lines, 'Profundidade Superior'))
+        inferior = map_optional(int, parse_conteudo(lines, 'Profundidade Inferior'))
     except Exception as e:
         logger.debug(f"Erro ao obter profundidade do horizonte. Erro: {str(e)}.")
     return {
