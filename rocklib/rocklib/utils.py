@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 
 DATA_RE = re.compile(r'\d{2}/\d{2}/\d{4}')
-PATH_BASE = '/home/raul/Downloads/Telegram Desktop/Embrapa/'
+PATH_BASE = 'C:\\Users\\jpaul\\Desktop\\var\\www\\solos\\html\\16587831804171ba22bccc0b7f83270e419def938bf4de9\\'
 
 def resolve_path(path):
     if 'http' in path:
