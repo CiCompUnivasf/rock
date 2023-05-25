@@ -14,11 +14,13 @@ def get_identificacao(soup: BeautifulSoup):
     tipo = parse_conteudo(lines, 'Tipo')
     situacao_coleta = parse_conteudo(lines, 'Situação coleta das amostras')
     material_origem = parse_conteudo(lines, 'Material de Origem')
+    uso_atual = parse_conteudo(lines, 'Uso Atual')
     return {
         'data_coleta': data,
         'tipo': tipo,
         'situacao_coleta': situacao_coleta,
-        'material_origem': material_origem
+        'material_origem': material_origem,
+        'uso_atual': uso_atual,
     }
 
 def get_localizacao(soup: BeautifulSoup):
