@@ -1,11 +1,12 @@
 from uuid import uuid4
+import json
 
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rocksite.models import Localizacao, Horizonte, PontoDeAmostragem
 from django.forms.models import model_to_dict
-
+from django.db.models import Q
 
 
 def index(request):
@@ -37,12 +38,22 @@ def index(request):
 
 @csrf_exempt  
 def search(request):
+    query = None
+    parametros = json.loads(request.body)
+    parametros_aceitos= ['h2o','calcio','kcl']
+    for parametro in parametros_aceitos:
+        if parametro in parametros:
+            if query is None:
+                query = Q(**{parametro:parametros[parametro]})
+            else:
+                query |= Q(**{parametro:parametros[parametro]})
     print("criando horizonte")
-    all_horizontes = Horizonte.objects.all().filter(h2o__gte=0)
-    horizontesjson = []
-    for h in iter(all_horizontes):
-        horizontesjson.append(model_to_dict(h))
-    all_pontos = PontoDeAmostragem.objects.all()
+    print(query)
+    print(parametros)
+    all_horizontes = Horizonte.objects.all().filter(query)
+    all_pontos =[] 
+    for h in all_horizontes:
+        all_pontos.append(h.ponto_de_amostragem)
     localizacaojson = [
         {**model_to_dict(ponto.localizacao),'uso_atual': ponto.uso_atual}
         for ponto in all_pontos]

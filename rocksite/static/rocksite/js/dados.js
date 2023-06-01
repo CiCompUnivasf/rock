@@ -9,15 +9,21 @@ function submitForm(event) {
     const propriedade = document.getElementById(`propriedade${i}`).value;
     const porcentagem = parseFloat(document.getElementById(`porcentagem${i}`).value.replaceAll(",", "."));
     if (propriedade && porcentagem) {
-     payload[propriedade] = porcentagem;
+      payload[propriedade] = porcentagem;
     }
   }
 
- 
+
   console.log(payload)
   // TODO: Corrigir esse código para realizar requisição POST com propiedades e porcentagens sendo enviadas via JSON
   const url = '/search';
-  const option = { method: 'POST', body: JSON.stringify(payload) }
+  const option = {
+    method: 'POST',
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json'  // Define o tipo de conteúdo como JSON
+    }
+  };
   fetch(url, option)
     .then(response => response.json())
     .then(data => {
@@ -37,7 +43,7 @@ function submitForm(event) {
         let municipioCell = document.createElement("td");
         municipioCell.textContent = obj.municipio;
 
-        
+
         let ufCell = document.createElement("td");
         ufCell.textContent = obj.uf;
 
