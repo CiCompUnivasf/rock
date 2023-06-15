@@ -12,7 +12,11 @@
   <!--personaliza o  envio e executar ações antes de enviar os dados -->
   <div class="search-form">
     <form onsubmit="return submitForm(event)">
-      <input type="text" id="propriedade0" placeholder="Propriedade">
+      <select id="propriedade0">
+        <option value="h2o"> H2O (pH) </option>
+        <option value="calcio">Cálcio (cmol/kg) </option>
+        <option value="kcl">Cloreto de Potássio (pH) </option>
+      </select>
       <input type="text" id="porcentagem0" placeholder="Porcentagem">
       <button class="add-button" type="button" onclick="addFields()">+</button>
       <input type="submit" value="Buscar">

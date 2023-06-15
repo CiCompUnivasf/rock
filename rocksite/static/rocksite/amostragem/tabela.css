@@ -20,15 +20,21 @@
    align-items: center;
  }
 
- .search-form input[type="text"],
- .search-form input[type="number"] {
+.search-form input[type="text"],
+.search-form input[type="number"] {
    padding: 6px;
    width: 200px;
    margin-right: 10px;
  }
 
- .search-form input[type="submit"],
- .search-form button {
+select {
+   padding: 6px;
+   width: 200px;
+   margin-right: 10px;
+ }
+
+.search-form input[type="submit"],
+.search-form button {
    padding: 6px 12px;
    background-color: #4CAF50;
    color: white;
