@@ -10,16 +10,22 @@ Após isso, instale as dependências:
 pip install -r requirements.txt
 ```
 
-Com isso você pode subir o servidor localmente, ou utilizar a biblioteca `rocklib`, separadamente, veja como:
+Para criar as tabelas no banco de dados, e popula-lo, execute:
+
+```sh
+# Cria tabelas
+python manage.py migrate
+# Executa a extração
+python manage.py extracao
+```
+
+É importante notar que é necessário ter os arquivos da embrapa em seu computador para executar a extração. Após te-los, é necessário adicionar o caminho dos arquivos na variável `PATH_BASE` do arquivo `rocklib/rocklib/utils.py`.
+
+Com isso você pode subir o servidor localmente, veja como:
 
 ```sh
 # subir servidor
 python manage.py runserver
-
-# Executa o script `rocklib/__main__.py` da biblioteca rocklib.
-# No futuro este script irá fazer a raspagem de dados
-cd rocklib
-python -m rocklib
 ```
 
 ## Criar tabelas
